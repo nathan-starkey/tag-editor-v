@@ -1,0 +1,81 @@
+/* Controls: */
+
+.te-form-control {
+  background-color: white;
+  border: 1px solid black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  resize: vertical;
+}
+
+button.te-form-control {
+  background-color: #eee;
+}
+
+input.te-form-control,
+textarea.te-form-control,
+select.te-form-control {
+  width: 15em;
+}
+
+input.te-form-control[type="number"],
+input.te-form-control[type="checkbox"],
+input.te-form-control[type="color"] {
+  width: 7.5em;
+}
+
+.te-form-control:disabled {
+  background-color: #eee;
+  border-color: #aaa;
+  color: #aaa;
+}
+
+/* Widgets: */
+
+.te-array-block {
+  border-left: .5em solid lightgray;
+}
+
+.te-array-block>.te-array-block-header {
+  background: lightgray;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  padding: .75rem;
+  padding-left: 0;
+  white-space: nowrap;
+}
+
+.te-array-block>.te-array-block-header>label {
+  display: inline-block;
+  padding: 0 1rem;
+  margin-left: 2px;
+}
+
+.te-array-block>.te-array-block-header>label:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.te-array-block>.te-array-block-header>select {
+  min-width: 10em;
+}
+
+.te-array-block>.te-array-block-body {
+  padding: 1rem;
+}
+
+.te-array-block.collapsed>.te-array-block-body {
+  display: none;
+}
+
+.te-struct-block>tr>.te-struct-block-label,
+.te-struct-block>tbody>tr>.te-struct-block-label {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  /* vertical-align: top; */
+  padding-right: 1rem;
+}
+
+.te-struct-block.disabled {
+  color: #888;
+}
