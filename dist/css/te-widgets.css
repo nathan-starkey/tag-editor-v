@@ -14,7 +14,8 @@ button.te-form-control {
 
 input.te-form-control,
 textarea.te-form-control,
-select.te-form-control {
+select.te-form-control,
+table.te-form-control {
   width: 15em;
 }
 
@@ -24,13 +25,27 @@ input.te-form-control[type="color"] {
   width: 7.5em;
 }
 
-.te-form-control:disabled {
+.te-form-control:disabled,
+.te-form-control.disabled {
   background-color: #eee;
   border-color: #aaa;
   color: #aaa;
 }
 
 /* Widgets: */
+
+.te-bitmask>tbody>tr>td:nth-child(1) {
+  padding: 0 .5em;
+  text-overflow: ellipsis;
+}
+
+.te-bitmask>tbody>tr>td:nth-child(2) {
+  width: 0;
+}
+
+.te-bitmask:not(.disabled)>tbody>tr:hover {
+  background-color: #eee;
+}
 
 .te-array-block {
   border-left: .5em solid lightgray;
@@ -45,6 +60,10 @@ input.te-form-control[type="color"] {
   white-space: nowrap;
 }
 
+.te-array-block.disabled>.te-array-block-header>label {
+  color: #888;
+}
+
 .te-array-block>.te-array-block-header>label {
   display: inline-block;
   padding: 0 1rem;
@@ -54,10 +73,15 @@ input.te-form-control[type="color"] {
 .te-array-block>.te-array-block-header>label:hover {
   text-decoration: underline;
   cursor: pointer;
+  color: black;
 }
 
 .te-array-block>.te-array-block-header>select {
   min-width: 10em;
+}
+
+.te-array-block>.te-array-block-header>button {
+  margin-left: .25em;
 }
 
 .te-array-block>.te-array-block-body {
@@ -66,6 +90,10 @@ input.te-form-control[type="color"] {
 
 .te-array-block.collapsed>.te-array-block-body {
   display: none;
+}
+
+.te-struct-block {
+  width: 100%;
 }
 
 .te-struct-block>tr>.te-struct-block-label,

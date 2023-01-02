@@ -1,0 +1,3 @@
+[submodule "src/widget-ts"]
+	path = src/widget-ts
+	url = https://github.com/nathan-starkey/widget-ts

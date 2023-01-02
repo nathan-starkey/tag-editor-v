@@ -1,0 +1,10 @@
+{
+  "include": ["src/**/*"],
+  "exclude": ["src/widget-ts/*"],
+  "compilerOptions": {
+    "target": "ES2022",
+    "rootDir": "src",
+    "outFile": "dist/js/app.js",
+    "removeComments": true
+  }
+}
