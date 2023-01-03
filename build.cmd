@@ -1,3 +1,5 @@
 @echo off
 call tsc
-copy /y /b src\widget-ts\dist\te-widgets.css dist\css\te-widgets.css
+copy /y /b src\widget-ts\dist\widgets.css dist\css\widgets.css
+copy /y /b src\widget-ts\dist\widgets.js dist\js\widgets.js
+rmdir /s /q dist\js\widget-ts

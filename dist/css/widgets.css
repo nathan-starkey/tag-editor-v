@@ -12,6 +12,15 @@ button.te-form-control {
   background-color: #eee;
 }
 
+button.te-form-control:not(:disabled):hover,
+.te-bitmask-widget:not(.disabled) tr:active {
+  background-image: linear-gradient(rgba(0, 0, 0, .05), rgba(0, 0, 0, .05));
+}
+
+button.te-form-control:not(:disabled):active {
+  background-image: linear-gradient(rgba(0, 0, 0, .15), rgba(0, 0, 0, .15));
+}
+
 input.te-form-control,
 textarea.te-form-control,
 select.te-form-control,
@@ -34,16 +43,29 @@ input.te-form-control[type="color"] {
 
 /* Widgets: */
 
-.te-bitmask>tbody>tr>td:nth-child(1) {
+.te-vector-widget {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+}
+
+.te-vector-widget>input.te-form-control {
+  width: 5em;
+}
+
+.te-vector-widget.disabled {
+  color: #888;
+}
+
+.te-bitmask-widget tr>td:nth-child(1) {
   padding: 0 .5em;
   text-overflow: ellipsis;
 }
 
-.te-bitmask>tbody>tr>td:nth-child(2) {
+.te-bitmask-widget tr>td:nth-child(2) {
   width: 0;
 }
 
-.te-bitmask:not(.disabled)>tbody>tr:hover {
+.te-bitmask-widget:not(.disabled) tr:hover {
   background-color: #eee;
 }
 
