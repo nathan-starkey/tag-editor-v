@@ -7,13 +7,34 @@
 
     <!-- ./CSS -->
     <link rel="stylesheet" href="css/widgets.css">
+    <link rel="stylesheet" href="css/styles.css">
   </head>
   <body>
-    <!-- ./JS -->
-    <script src="js/widgets.js"></script>
-    <script src="js/main.js"></script>
+    <div id="app">
+      <h1 id="title">Tag Editor V</h1>
 
-    <!-- ./JS/PLUGINS -->
-    <script src="js/plugins/cloak.js"></script>
+      <div id="setup">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <button class="te-form-control" onclick="CloakExtension.openFile();">Open Cloak File</button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button class="te-form-control" onclick="CloakExtension.newFile();">New Cloak File</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="main" hidden></div>
+    </div>
+
+    <!-- ./JS -->
+    <script src="extensions/cloak.js"></script>
+    <script src="js/widgets.js"></script>
   </body>
 </html>

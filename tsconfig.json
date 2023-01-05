@@ -3,7 +3,8 @@
   "compilerOptions": {
     "target": "ES2022",
     "rootDir": "src",
-    "outDir": "dist/js",
-    "removeComments": true
+    "outDir": "dist",
+    "removeComments": true,
+    "types": ["@types/wicg-file-system-access"]
   }
 }
