@@ -18,7 +18,9 @@ var CloakExtension;
         json.worlds.forEach(world => {
             let chunkDataSize = world.chunkWidth * world.chunkHeight;
             world.chunks.forEach(chunk => {
-                chunk.data = chunk.data.split(",");
+                if (typeof chunk.data == "string") {
+                  chunk.data = chunk.data.split(",");
+                }
                 chunk.data.length = chunkDataSize;
                 for (let i = 0; i < chunkDataSize; ++i) {
                     chunk.data[i] = Number(chunk.data[i]) || 0;
