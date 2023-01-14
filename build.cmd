@@ -1,5 +1,10 @@
 @echo off
+setlocal
 call tsc
-copy /y /b src\widget-ts\dist\widgets.css dist\css\widgets.css
-copy /y /b src\widget-ts\dist\widgets.js dist\js\widgets.js
-rmdir /s /q dist\widget-ts
+call rollup -c
+pushd dist\js
+del index.js
+rmdir /s /q cloak
+rmdir /s /q common-controls
+popd
+endlocal

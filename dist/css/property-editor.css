@@ -1,0 +1,138 @@
+#property-editor {
+  background-color: #eee;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  height: 100%;
+  overflow-y: scroll;
+  text-align: center;
+}
+
+#property-editor * {
+  text-align: initial;
+}
+
+#property-editor .page {
+  background: white;
+  display: inline-block;
+  padding: 2em 4em;
+}
+
+#property-editor-title {
+  text-align: center;
+  font-weight: normal;
+}
+
+#property-editor .marked::before {
+  content: "*";
+  font-weight: bold;
+}
+
+#property-editor .marked {
+  font-weight: bold;
+}
+
+.property-editor input,
+.property-editor textarea,
+.property-editor select,
+.property-editor button {
+  background-color: white;
+  border: 1px solid black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  resize: vertical;
+}
+
+.property-editor button {
+  background-color: #eee;
+}
+
+.property-editor button:not(:disabled):hover {
+  background-image: linear-gradient(rgba(0, 0, 0, .05), rgba(0, 0, 0, .05));
+}
+
+.property-editor button:not(:disabled):active {
+  background-image: linear-gradient(rgba(0, 0, 0, .15), rgba(0, 0, 0, .15));
+}
+
+.property-editor input,
+.property-editor textarea,
+.property-editor select,
+.property-editor table {
+  width: 15em;
+}
+
+.property-editor input[type="number"],
+.property-editor input[type="checkbox"],
+.property-editor input[type="color"] {
+  width: 7.5em;
+}
+
+.property-editor input:disabled,
+.property-editor textarea:disabled,
+.property-editor select:disabled,
+.property-editor button:disabled {
+  background-color: #eee;
+  border-color: #aaa;
+  color: #aaa;
+}
+
+.property-editor .list-group {
+  border-left: .5em solid lightgray;
+}
+
+.property-editor .list-group>div:nth-child(1) {
+  background: lightgray;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  padding: .75rem;
+  padding-left: 0;
+  white-space: nowrap;
+}
+
+.property-editor .list-group.disabled>div:nth-child(1)>label {
+  color: #888;
+}
+
+.property-editor .list-group>div:nth-child(1)>label {
+  display: inline-block;
+  padding: 0 1rem;
+  margin-left: 2px;
+}
+
+.property-editor .list-group>div:nth-child(1)>label:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  color: black;
+}
+
+.property-editor .list-group>div:nth-child(1)>select {
+  min-width: 10em;
+}
+
+.property-editor .list-group>div:nth-child(1)>button {
+  margin-left: .25em;
+}
+
+.property-editor .list-group>div:nth-child(2) {
+  padding: 1rem;
+}
+
+.property-editor .list-group.collapsed>div:nth-child(2) {
+  display: none;
+}
+
+.property-editor .table-group {
+  width: 100%;
+}
+
+.property-editor .table-group.disabled {
+  color: #888;
+}
+
+.property-editor .table-group>tr>td:nth-child(1):not(:last-child),
+.property-editor .table-group>tbody>tr>td:nth-child(1):not(:last-child) {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  padding-right: 1rem;
+  width: 0;
+}

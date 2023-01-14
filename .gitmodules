@@ -1,3 +1,4 @@
-[submodule "src/widget-ts"]
-	path = src/widget-ts
-	url = https://github.com/nathan-starkey/widget-ts
+
+[submodule "src/js/common-controls"]
+	path = src/js/common-controls
+	url = https://github.com/nathan-starkey/common-controls

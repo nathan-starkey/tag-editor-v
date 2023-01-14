@@ -4,7 +4,6 @@
     "target": "ES2022",
     "rootDir": "src",
     "outDir": "dist",
-    "removeComments": true,
     "types": ["@types/wicg-file-system-access"]
   }
 }
