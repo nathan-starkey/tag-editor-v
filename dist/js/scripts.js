@@ -47,6 +47,35 @@ var Extensions = (function () {
         }
     }
 
+    class Button extends CommonControl {
+        hideName = true;
+        constructor(arg0, arg1, arg2) {
+            let label = "";
+            let name = "";
+            let callback = () => { };
+            if (typeof arg1 == "string") {
+                name = arg0;
+                label = arg1;
+                callback = arg2 || callback;
+            }
+            else {
+                label = arg0;
+                callback = arg1 || callback;
+            }
+            super(document.createElement("button"), name);
+            this.element.innerText = label;
+            this.element.addEventListener("click", () => callback());
+        }
+        get value() {
+            return null;
+        }
+        set value(value) {
+        }
+        click() {
+            this.element.click();
+        }
+    }
+
     class CheckBox extends CommonControl {
         constructor(name) {
             super(document.createElement("input"), name);
@@ -344,14 +373,62 @@ var Extensions = (function () {
         }
     }
 
+    class TextOutput extends CommonControl {
+        hideName = true;
+        constructor(name) {
+            super(document.createElement("span"), name);
+        }
+        get value() {
+            return null;
+        }
+        set value(value) {
+            this.text = value || "";
+        }
+        set disabled(disabled) {
+            super.disabled = disabled;
+            this.text = "";
+        }
+        get text() {
+            return this.element.innerText;
+        }
+        set text(text) {
+            this.element.innerText = text;
+        }
+        get html() {
+            return this.element.innerHTML;
+        }
+        set html(html) {
+            this.element.innerHTML = html;
+        }
+    }
+
+    let cachedDescriptors;
+    let descriptorListGroup;
+    let creatureDescriptionInput;
+    let creatureDescriptionOutput;
+    let tileDescriptionInput;
+    let tileDescriptionOutput;
     function createForm() {
+        setTimeout(() => {
+            [
+                creatureDescriptionOutput,
+                tileDescriptionOutput
+            ].forEach(descriptionOutput => {
+                descriptionOutput.element.style.display = "inline-block";
+                descriptionOutput.element.style.width = "256px";
+                descriptionOutput.element.style.fontSize = "12px";
+            });
+        }, 0);
         return new TableGroup([
             new ListGroup("creatures", new TableGroup([
                 new TextBox("id"),
                 new TextBox("name"),
-                new TextArea("description"),
-                // new Button("Test Description"),
-                // new TextOutput(),
+                creatureDescriptionInput = new TextArea("description"),
+                new Button("Test Description", () => {
+                    cachedDescriptors = descriptorListGroup.value;
+                    creatureDescriptionOutput.text = generateDescription(creatureDescriptionInput.value);
+                }),
+                creatureDescriptionOutput = new TextOutput(),
                 new ListGroup("sprites", new TextBox(), item => item),
                 new NumericBox("width"),
                 new NumericBox("height"),
@@ -364,9 +441,12 @@ var Extensions = (function () {
             new ListGroup("tiles", new TableGroup([
                 new TextBox("id"),
                 new TextBox("name"),
-                new TextArea("description"),
-                // new Button("Test Description"),
-                // new TextOutput(),
+                tileDescriptionInput = new TextArea("description"),
+                new Button("Test Description", () => {
+                    cachedDescriptors = descriptorListGroup.value;
+                    tileDescriptionOutput.text = generateDescription(tileDescriptionInput.value);
+                }),
+                tileDescriptionOutput = new TextOutput(),
                 new ListGroup("sprites", new TextBox(), item => item),
                 new CheckBox("isOpaque"),
                 new CheckBox("isSolid")
@@ -395,8 +475,51 @@ var Extensions = (function () {
                     new NumericBox("chanceDay"),
                     new NumericBox("chanceNight")
                 ]), item => item["x"] + "," + item["y"] + ": " + item["creatureId"])
-            ]), item => item["id"])
+            ]), item => item["id"]),
+            descriptorListGroup = new ListGroup("descriptors", new TableGroup([
+                new TextBox("id"),
+                new ListGroup("replacers", new TableGroup([
+                    new NumericBox("weight"),
+                    new TextArea("value")
+                ]))
+            ]))
         ]);
+    }
+    function generateDescription(inputText) {
+        let outputText = "";
+        let lastCloseIndex = -1;
+        let curr = 0;
+        let max = 100;
+        while (true) {
+            if (curr++ == max)
+                break;
+            // text segment
+            let nextOpenIndex = inputText.indexOf("<", lastCloseIndex + 1);
+            let nextCloseIndex = inputText.indexOf(">", nextOpenIndex + 1);
+            if (nextOpenIndex == -1) {
+                outputText += inputText.slice(lastCloseIndex + 1);
+                break;
+            }
+            outputText += inputText.slice(lastCloseIndex + 1, nextOpenIndex);
+            // descriptor segment
+            outputText += resolveDescriptor(inputText.slice(nextOpenIndex + 1, nextCloseIndex));
+            lastCloseIndex = nextCloseIndex;
+        }
+        return outputText;
+    }
+    function resolveDescriptor(id) {
+        // TEMP
+        id = id.indexOf(":") != -1 ? id.split(":")[0] : id;
+        let descriptors = cachedDescriptors;
+        let descriptor = descriptors.find(descriptor => descriptor["id"] == id);
+        if (!descriptor) {
+            return "<" + id + ">";
+        }
+        let replacer = descriptor["replacers"][Math.floor(Math.random() * descriptor["replacers"].length)];
+        if (!replacer) {
+            return "undefined";
+        }
+        return generateDescription(replacer.value);
     }
 
     function transformDataIn(data) {

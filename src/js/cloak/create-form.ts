@@ -7,14 +7,35 @@ import TextArea from "../common-controls/src/common-controls/text-area";
 import TextBox from "../common-controls/src/common-controls/text-box";
 import TextOutput from "../common-controls/src/common-controls/text-output";
 
+let cachedDescriptors: {}[];
+let descriptorListGroup: ListGroup<{}>;
+let creatureDescriptionInput: TextArea;
+let creatureDescriptionOutput: TextOutput;
+let tileDescriptionInput: TextArea;
+let tileDescriptionOutput: TextOutput;
+
 export function createForm() {
+  setTimeout(() => {
+    [
+      creatureDescriptionOutput,
+      tileDescriptionOutput
+    ].forEach(descriptionOutput => {
+      descriptionOutput.element.style.display = "inline-block";
+      descriptionOutput.element.style.width = "256px";
+      descriptionOutput.element.style.fontSize = "12px";
+    });
+  }, 0);
+
   return new TableGroup([
     new ListGroup("creatures", new TableGroup([
       new TextBox("id"),
       new TextBox("name"),
-      new TextArea("description"),
-      // new Button("Test Description"),
-      // new TextOutput(),
+      creatureDescriptionInput = new TextArea("description"),
+      new Button("Test Description", () => {
+        cachedDescriptors = descriptorListGroup.value;
+        creatureDescriptionOutput.text = generateDescription(creatureDescriptionInput.value);
+      }),
+      creatureDescriptionOutput = new TextOutput(),
       new ListGroup("sprites", new TextBox(), item => item),
       new NumericBox("width"),
       new NumericBox("height"),
@@ -27,9 +48,12 @@ export function createForm() {
     new ListGroup("tiles", new TableGroup([
       new TextBox("id"),
       new TextBox("name"),
-      new TextArea("description"),
-      // new Button("Test Description"),
-      // new TextOutput(),
+      tileDescriptionInput = new TextArea("description"),
+      new Button("Test Description", () => {
+        cachedDescriptors = descriptorListGroup.value;
+        tileDescriptionOutput.text = generateDescription(tileDescriptionInput.value);
+      }),
+      tileDescriptionOutput = new TextOutput(),
       new ListGroup("sprites", new TextBox(), item => item),
       new CheckBox("isOpaque"),
       new CheckBox("isSolid")
@@ -58,6 +82,65 @@ export function createForm() {
         new NumericBox("chanceDay"),
         new NumericBox("chanceNight")
       ]), item => item["x"] + "," + item["y"] + ": " + item["creatureId"])
-    ]), item => item["id"])
+    ]), item => item["id"]),
+    descriptorListGroup = new ListGroup("descriptors", new TableGroup([
+      new TextBox("id"),
+      new ListGroup("replacers", new TableGroup([
+        new NumericBox("weight"),
+        new TextArea("value")
+      ]))
+    ]))
   ]);
+}
+
+function generateDescription(inputText: string): string {
+  let outputText = "";
+  let lastOpenIndex = -1;
+  let lastCloseIndex = -1;
+
+  let curr = 0;
+  let max = 100;
+
+  while (true) {
+    if (curr++ == max) break;
+
+    // text segment
+    let nextOpenIndex = inputText.indexOf("<", lastCloseIndex + 1);
+    let nextCloseIndex = inputText.indexOf(">", nextOpenIndex + 1);
+  
+    if (nextOpenIndex == -1) {
+      outputText += inputText.slice(lastCloseIndex + 1);
+      break;
+    }
+    
+    outputText += inputText.slice(lastCloseIndex + 1, nextOpenIndex);
+  
+    // descriptor segment
+    outputText += resolveDescriptor(inputText.slice(nextOpenIndex + 1, nextCloseIndex));
+
+    lastOpenIndex = nextOpenIndex;
+    lastCloseIndex = nextCloseIndex;
+  }
+
+  return outputText;
+}
+
+function resolveDescriptor(id: string) {
+  // TEMP
+  id = id.indexOf(":") != -1 ? id.split(":")[0] : id;
+
+  let descriptors = cachedDescriptors;
+  let descriptor = descriptors.find(descriptor => descriptor["id"] == id);;
+
+  if (!descriptor) {
+    return "<" + id + ">";
+  }
+
+  let replacer = descriptor["replacers"][Math.floor(Math.random() * descriptor["replacers"].length)];
+
+  if (!replacer) {
+    return "undefined";
+  }
+
+  return generateDescription(replacer.value);
 }
