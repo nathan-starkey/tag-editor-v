@@ -1,9 +1,10 @@
 {
-  "include": ["src/**/*"],
+  "include": ["**/*"],
   "compilerOptions": {
     "target": "ES2022",
-    "rootDir": "src",
-    "outDir": "dist",
+    "outDir": "scripts",
+    "module": "AMD",
+    "sourceMap": true,
     "types": ["@types/wicg-file-system-access"]
   }
 }
